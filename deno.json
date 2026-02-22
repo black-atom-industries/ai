@@ -1,0 +1,22 @@
+{
+    "version": "0.1.0",
+    "tasks": {
+        "check": "deno check src/**/*.ts platforms/**/*.ts sync/**/*.ts",
+        "format": "deno fmt",
+        "lint": "deno lint",
+        "sync": "deno run -A sync/mod.ts",
+        "dev": "deno run -A sync/dev.ts"
+    },
+    "fmt": {
+        "useTabs": false,
+        "lineWidth": 100,
+        "indentWidth": 4,
+        "semiColons": true,
+        "singleQuote": false,
+        "proseWrap": "preserve",
+        "exclude": ["CHANGELOG.md"]
+    },
+    "lint": {
+        "exclude": ["CHANGELOG.md"]
+    }
+}
