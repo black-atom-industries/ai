@@ -1,0 +1,94 @@
+name: Sync to Org Repos
+on:
+    workflow_run:
+        workflows: [Release]
+        types: [completed]
+    workflow_dispatch:
+        inputs:
+            tag:
+                description: "Version tag (e.g., v1.0.0). Defaults to latest release."
+                required: false
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+    sync:
+        runs-on: ubuntu-latest
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: denoland/setup-deno@v2
+              with:
+                  deno-version: v2.x
+
+            - name: Determine version tag
+              id: version
+              run: |
+                  if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.tag }}" ]; then
+                      echo "tag=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+                  else
+                      TAG=$(gh release view --json tagName -q .tagName 2>/dev/null || echo "unknown")
+                      echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+                  fi
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Discover org repos
+              id: repos
+              run: |
+                  REPOS=$(gh api orgs/black-atom-industries/repos --paginate --jq '.[] | select(.archived == false) | select(.name != "ai") | .name' | sort)
+                  echo "repos<<EOF" >> "$GITHUB_OUTPUT"
+                  echo "$REPOS" >> "$GITHUB_OUTPUT"
+                  echo "EOF" >> "$GITHUB_OUTPUT"
+              env:
+                  GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
+
+            - name: Sync to each repo
+              env:
+                  GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
+                  TAG: ${{ steps.version.outputs.tag }}
+              run: |
+                  REPOS="${{ steps.repos.outputs.repos }}"
+                  for REPO in $REPOS; do
+                      echo "--- Syncing to $REPO ---"
+                      CLONE_DIR=$(mktemp -d)
+                      gh repo clone "black-atom-industries/$REPO" "$CLONE_DIR" -- --depth 1
+
+                      # Run sync against the cloned repo
+                      deno run -A sync/mod.ts --repo "$CLONE_DIR"
+
+                      # Check if there are changes
+                      cd "$CLONE_DIR"
+                      if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+                          echo "  $REPO: no changes"
+                          cd -
+                          rm -rf "$CLONE_DIR"
+                          continue
+                      fi
+
+                      # Create branch, commit, and PR
+                      BRANCH="ai/sync-${TAG}"
+                      git checkout -b "$BRANCH"
+                      git add -A
+                      git commit -m "chore: sync org AI config (ai@${TAG})"
+                      git push origin "$BRANCH"
+
+                      # Create PR if one doesn't exist
+                      EXISTING_PR=$(gh pr list --repo "black-atom-industries/$REPO" --head "$BRANCH" --json number --jq '.[0].number' 2>/dev/null || echo "")
+                      if [ -z "$EXISTING_PR" ]; then
+                          gh pr create \
+                              --repo "black-atom-industries/$REPO" \
+                              --title "chore: sync org AI config (ai@${TAG})" \
+                              --body "Automated sync from [black-atom-industries/ai](https://github.com/black-atom-industries/ai) release ${TAG}." \
+                              --head "$BRANCH"
+                          echo "  $REPO: PR created"
+                      else
+                          echo "  $REPO: PR #$EXISTING_PR already exists, updated"
+                      fi
+
+                      cd -
+                      rm -rf "$CLONE_DIR"
+                  done

@@ -1,12 +1,27 @@
+import { resolve } from "jsr:@std/path@1";
+import { parseArgs } from "jsr:@std/cli@1";
 import { config } from "../platforms/claude/mod.ts";
 import { discoverLocalRepos } from "./discover.ts";
 import { applySync, type SyncResult } from "./apply.ts";
 
-const aiRoot = new URL(".", import.meta.url).pathname.replace("/sync/", "");
+const aiRoot = resolve(new URL(".", import.meta.url).pathname, "..");
 
-console.log("Discovering local repos...");
-const repos = await discoverLocalRepos(aiRoot);
-console.log(`Found ${repos.length} repos\n`);
+const args = parseArgs(Deno.args, {
+    string: ["repo"],
+});
+
+let repos: string[];
+
+if (args.repo) {
+    // Single repo mode (used by CI)
+    repos = [resolve(args.repo)];
+    console.log(`Syncing to: ${repos[0]}\n`);
+} else {
+    // Discovery mode (local dev)
+    console.log("Discovering local repos...");
+    repos = await discoverLocalRepos(aiRoot);
+    console.log(`Found ${repos.length} repos\n`);
+}
 
 const results: SyncResult[] = [];
 
