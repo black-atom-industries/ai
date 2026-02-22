@@ -12,17 +12,17 @@ Black Atom uses [Conventional Commits](https://www.conventionalcommits.org/) to 
 
 ## Types
 
-| Type | When to use | Release impact |
-|------|-------------|----------------|
-| `feat` | New functionality (theme, collection, feature) | Minor bump |
-| `fix` | Bug fix, color correction | Patch bump |
-| `refactor` | Structural change, no behavior change | No release |
-| `style` | Formatting, whitespace, minor styling | No release |
-| `docs` | Documentation only | No release |
-| `chore` | Maintenance (deps, CI config) | No release |
-| `test` | Adding or updating tests | No release |
-| `perf` | Performance improvement | No release |
-| `ci` | CI/CD changes | No release |
+| Type       | When to use                                    | Release impact |
+| ---------- | ---------------------------------------------- | -------------- |
+| `feat`     | New functionality (theme, collection, feature) | Minor bump     |
+| `fix`      | Bug fix, color correction                      | Patch bump     |
+| `refactor` | Structural change, no behavior change          | No release     |
+| `style`    | Formatting, whitespace, minor styling          | No release     |
+| `docs`     | Documentation only                             | No release     |
+| `chore`    | Maintenance (deps, CI config)                  | No release     |
+| `test`     | Adding or updating tests                       | No release     |
+| `perf`     | Performance improvement                        | No release     |
+| `ci`       | CI/CD changes                                  | No release     |
 
 ## Breaking Changes
 

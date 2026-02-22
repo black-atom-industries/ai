@@ -28,6 +28,7 @@ If nothing is staged, identify the relevant changed files and present them to th
 ### 2. Check for Linear Issue Context
 
 Look for a linked issue in this order:
+
 1. Current branch name (pattern: `feature/dev-NNN-*` or `fix/dev-NNN-*`)
 2. Recent conversation context mentioning a DEV/OPS/DES issue
 3. If no issue found, proceed without one — don't ask unless the user mentioned one
@@ -38,23 +39,24 @@ Extract the issue identifier (e.g., `DEV-123`).
 
 Based on the nature of changes:
 
-| Type | When to use |
-|------|-------------|
-| `feat` | New functionality, theme, collection, or feature |
-| `fix` | Bug fix, color correction |
-| `refactor` | Structural change, no behavior change |
-| `style` | Formatting, whitespace, minor styling |
-| `docs` | Documentation only |
-| `chore` | Maintenance (deps, CI config) |
-| `test` | Adding or updating tests |
-| `perf` | Performance improvement |
-| `ci` | CI/CD changes |
+| Type       | When to use                                      |
+| ---------- | ------------------------------------------------ |
+| `feat`     | New functionality, theme, collection, or feature |
+| `fix`      | Bug fix, color correction                        |
+| `refactor` | Structural change, no behavior change            |
+| `style`    | Formatting, whitespace, minor styling            |
+| `docs`     | Documentation only                               |
+| `chore`    | Maintenance (deps, CI config)                    |
+| `test`     | Adding or updating tests                         |
+| `perf`     | Performance improvement                          |
+| `ci`       | CI/CD changes                                    |
 
 If $ARGUMENTS includes a type (e.g., "fix" or "feat"), use it.
 
 ### 4. Determine Scope
 
 Optional but encouraged. Derive from the changed file paths:
+
 - `themes/default`, `themes/jpn`, `themes/mnml`, etc. for collection changes
 - `cli` for CLI tool changes
 - `adapters` for adapter system changes

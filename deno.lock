@@ -30,5 +30,12 @@
         "jsr:@std/internal"
       ]
     }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/cli@1",
+      "jsr:@std/fs@1",
+      "jsr:@std/path@1"
+    ]
   }
 }

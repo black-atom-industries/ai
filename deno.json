@@ -1,7 +1,12 @@
 {
     "version": "0.1.0",
+    "imports": {
+        "@std/path": "jsr:@std/path@1",
+        "@std/fs": "jsr:@std/fs@1",
+        "@std/cli": "jsr:@std/cli@1"
+    },
     "tasks": {
-        "check": "deno check src/**/*.ts platforms/**/*.ts sync/**/*.ts",
+        "check": "deno check platforms/**/*.ts sync/**/*.ts",
         "format": "deno fmt",
         "lint": "deno lint",
         "sync": "deno run -A sync/mod.ts",

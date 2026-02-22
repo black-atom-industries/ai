@@ -1,5 +1,5 @@
-import { join, basename } from "jsr:@std/path@1";
-import { ensureDir } from "jsr:@std/fs@1";
+import { join } from "@std/path";
+import { ensureDir } from "@std/fs";
 import type { PlatformConfig } from "../platforms/claude/types.ts";
 
 export interface SyncResult {

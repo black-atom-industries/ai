@@ -1,6 +1,6 @@
 import { config } from "../platforms/claude/mod.ts";
 import { discoverLocalRepos } from "./discover.ts";
-import { applySync, snapshotFiles, restoreFromSnapshot, type FileSnapshot } from "./apply.ts";
+import { applySync, type FileSnapshot, restoreFromSnapshot, snapshotFiles } from "./apply.ts";
 
 const aiRoot = new URL(".", import.meta.url).pathname.replace("/sync/", "");
 
@@ -39,7 +39,9 @@ async function syncAll(): Promise<void> {
         const changes = result.created.length + result.modified.length;
 
         if (changes > 0) {
-            console.log(`  ${repoName}: ${result.created.length} created, ${result.modified.length} modified`);
+            console.log(
+                `  ${repoName}: ${result.created.length} created, ${result.modified.length} modified`,
+            );
         } else {
             console.log(`  ${repoName}: up to date`);
         }

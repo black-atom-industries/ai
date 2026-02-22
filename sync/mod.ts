@@ -1,5 +1,5 @@
-import { resolve } from "jsr:@std/path@1";
-import { parseArgs } from "jsr:@std/cli@1";
+import { resolve } from "@std/path";
+import { parseArgs } from "@std/cli";
 import { config } from "../platforms/claude/mod.ts";
 import { discoverLocalRepos } from "./discover.ts";
 import { applySync, type SyncResult } from "./apply.ts";
@@ -33,7 +33,9 @@ for (const repo of repos) {
     const changes = result.created.length + result.modified.length;
 
     if (changes > 0) {
-        console.log(`  ${repoName}: ${result.created.length} created, ${result.modified.length} modified`);
+        console.log(
+            `  ${repoName}: ${result.created.length} created, ${result.modified.length} modified`,
+        );
     } else {
         console.log(`  ${repoName}: up to date`);
     }
@@ -43,4 +45,6 @@ const totalCreated = results.reduce((sum, r) => sum + r.created.length, 0);
 const totalModified = results.reduce((sum, r) => sum + r.modified.length, 0);
 const totalUnchanged = results.reduce((sum, r) => sum + r.unchanged.length, 0);
 
-console.log(`\nDone: ${totalCreated} created, ${totalModified} modified, ${totalUnchanged} unchanged`);
+console.log(
+    `\nDone: ${totalCreated} created, ${totalModified} modified, ${totalUnchanged} unchanged`,
+);
