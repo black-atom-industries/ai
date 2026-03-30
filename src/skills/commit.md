@@ -1,6 +1,6 @@
 ---
 name: bai-commit
-description: Use when committing changes in any Black Atom repository. Ensures conventional commit format for release-please, includes Linear issue references, and follows org conventions.
+description: Use when committing changes in any Black Atom repository. Ensures conventional commit format for release-please, includes GitHub issue references, and follows org conventions.
 disable-model-invocation: true
 allowed-tools: Bash, Read, Grep, Glob
 ---
@@ -25,15 +25,15 @@ git diff
 
 If nothing is staged, identify the relevant changed files and present them to the user for selective staging.
 
-### 2. Check for Linear Issue Context
+### 2. Check for GitHub Issue Context
 
 Look for a linked issue in this order:
 
-1. Current branch name (pattern: `feature/dev-NNN-*` or `fix/dev-NNN-*`)
-2. Recent conversation context mentioning a DEV/OPS/DES issue
+1. Current branch name (pattern: `feature/NNN-*` or `fix/NNN-*`)
+2. Recent conversation context mentioning a GitHub issue number
 3. If no issue found, proceed without one — don't ask unless the user mentioned one
 
-Extract the issue identifier (e.g., `DEV-123`).
+Extract the issue number (e.g., `#123`).
 
 ### 3. Determine Commit Type
 
@@ -72,10 +72,10 @@ Proposed commit:
   Type: feat
   Scope: themes/mnml
   Message: add cyan dark variant
-  Issue: DEV-245
+  Issue: #245
   Files to stage: src/themes/mnml/cyan-dark.ts, src/themes/mnml/mod.ts
 
-  Full message: feat(themes/mnml): add cyan dark variant [DEV-245]
+  Full message: feat(themes/mnml): add cyan dark variant #245
 ```
 
 Wait for user approval or modifications.
@@ -92,7 +92,7 @@ On approval:
 3. Commit using HEREDOC for proper formatting:
    ```bash
    git commit -m "$(cat <<'EOF'
-   feat(themes/mnml): add cyan dark variant [DEV-245]
+   feat(themes/mnml): add cyan dark variant #245
    EOF
    )"
    ```

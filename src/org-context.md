@@ -34,7 +34,7 @@ Each theme defines:
 
 ## Issue Tracking
 
-All work is tracked in [Linear](https://linear.app/black-atom-industries). Reference issues in commits: `feat: add feature [DEV-123]`
+All work is tracked in [GitHub Issues](https://github.com/orgs/black-atom-industries/projects). Reference issues in commits: `feat: add feature #123`
 
 ## Code Style
 

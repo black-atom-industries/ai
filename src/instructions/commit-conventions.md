@@ -44,11 +44,11 @@ Optional but encouraged. Maps to the area of change:
 
 ## Issue References
 
-Append Linear issue ID in brackets when a task is linked:
+Append GitHub issue reference when a task is linked:
 
 ```
-feat(themes/mnml): add blue variant [DEV-245]
-fix: correct contrast ratio in light themes [DEV-250]
+feat(themes/mnml): add blue variant #245
+fix: correct contrast ratio in light themes #250
 ```
 
 ## Rules
@@ -64,7 +64,7 @@ fix: correct contrast ratio in light themes [DEV-250]
 
 ```bash
 # Good
-feat(themes/mnml): add cyan dark variant [DEV-245]
+feat(themes/mnml): add cyan dark variant #245
 fix: correct ANSI color mapping for dark themes
 refactor(cli): simplify template processing pipeline
 docs: update adapter development guide
