@@ -1,5 +1,5 @@
 {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "imports": {
         "@std/path": "jsr:@std/path@1",
         "@std/fs": "jsr:@std/fs@1",
@@ -19,9 +19,13 @@
         "semiColons": true,
         "singleQuote": false,
         "proseWrap": "preserve",
-        "exclude": ["CHANGELOG.md"]
+        "exclude": [
+            "CHANGELOG.md"
+        ]
     },
     "lint": {
-        "exclude": ["CHANGELOG.md"]
+        "exclude": [
+            "CHANGELOG.md"
+        ]
     }
 }
